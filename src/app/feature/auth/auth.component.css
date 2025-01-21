@@ -1,0 +1,9 @@
+input.ng-invalid.ng-touched {
+  border-color: red;
+  outline-color: red;
+}
+
+form button[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
+}
