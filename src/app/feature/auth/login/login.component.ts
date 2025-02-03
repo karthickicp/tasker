@@ -1,14 +1,14 @@
-import { Component, inject, Injectable } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RedirectCommand, Router, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '@app/core/services/api/auth.service';
 import { CookieService } from '@app/core/services/cookie.service';
-import { ILoginFields } from '@app/shared/models';
+import { ILoginFields } from '@app/core/models';
 import { environment } from 'src/environment/environment';
 
 @Component({
@@ -32,14 +32,20 @@ export class LoginComponent {
   });
 
   onSubmit() {
-    console.log(this.loginForm.status, 'form status');
     if (!this.loginForm.valid) {
       this.loginForm.markAllAsTouched();
     } else {
       this.authService.signin(this.loginForm.value as ILoginFields).subscribe({
         next: (response) => {
-          this.cookieService.set(environment.cookieName, response.token);
-          this.router.navigate(['/']);
+          console.log(response?.data?.token, 'response');
+          if (response?.data?.token) {
+            this.cookieService.set(
+              environment.cookieName,
+              response.data.token,
+              30
+            );
+            this.router.navigate(['/']);
+          }
         },
         error: (error) => {
           console.error(error);

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'tsker-header',
+  selector: 'header-layout',
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {}
