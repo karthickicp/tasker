@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -17,14 +17,6 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
   ],
   templateUrl: './dashboardLayout.component.html',
 })
-export class DashboardLayout implements OnInit {
+export class DashboardLayout {
   loading = true;
-
-  ngOnInit() {
-    console.log(this.loading, 'loading');
-    setTimeout(() => {
-      this.loading = false;
-    }, 5000);
-    console.log(this.loading, 'loading 2');
-  }
 }

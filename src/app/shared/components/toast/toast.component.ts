@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'toast',
+  selector: 'app-toast',
   imports: [CommonModule],
   templateUrl: './toast.component.html',
 })

@@ -1,27 +1,41 @@
 <aside class="w-[350px] p-6 border-r bg-white relative">
   <h3 class="text-lg font-title text-neutral-950 mb-6 font-semibold">Tasker</h3>
-  <ul class="min-h-[calc(100vh-140px)]">
-    <li
-      *ngFor="let list of lists"
-      class="flex justify-between items-center text-neutral-950 py-3 px-4 rounded-md cursor-pointer hover:bg-[#f5f5f5]"
-    >
-      <div class="flex items-center space-x-3">
-        <span class="capitalize">{{ list.name }}</span>
-      </div>
-      <span
-        class="text-neutral-600 bg-white py-[1px] px-3 text-center rounded-xl"
+  <div class="min-h-[calc(100vh-140px)]">
+    <div *ngIf="listStore.loading()">loading</div>
+    <ul *ngIf="!listStore.loading() && listStore.lists().length">
+      <li
+        *ngFor="let list of listStore.lists()"
+        class="flex justify-between items-center text-neutral-950 py-3 px-4 rounded-md cursor-pointer hover:bg-[#f5f5f5]"
       >
-        10
-      </span>
-    </li>
-    <li>
-      <Button
-        class="flex items-center space-x-3 mt-6 py-3 px-4 bg-[#f5f5f5] text-black rounded-full w-full hover:bg-[#f1f1f1]"
-      >
-        <i class="fa fa-plus"></i>+ <span>Create new list</span>
-      </Button>
-    </li>
-  </ul>
+        <div class="flex items-center space-x-3">
+          <span class="capitalize">{{ list.name }}</span>
+        </div>
+        <span
+          class="text-neutral-600 bg-white py-[1px] px-3 text-center rounded-xl"
+        >
+          10
+        </span>
+      </li>
+      <li>
+        <Button
+          class="flex items-center space-x-2 mt-6 py-3 px-4 bg-[#f5f5f5] text-black rounded-full w-full hover:bg-[#f1f1f1]"
+          (click)="setModalOpen()"
+        >
+          <img
+            src="assets/img/icons/plus-icon.svg"
+            alt="plus-icon"
+            class="w-3 h-3 float-start"
+          />
+          <span>Create new list</span>
+        </Button>
+      </li>
+    </ul>
+  </div>
+  <app-addoreditlist-modal
+    [showModal]="isModalOpen()"
+    (onModalClose)="onModalClose()"
+  />
+
   <button
     type="submit"
     class="w-full text-white bg-primary-600 hover:bg-primary-600/90 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

@@ -37,7 +37,6 @@ export class LoginComponent {
     } else {
       this.authService.signin(this.loginForm.value as ILoginFields).subscribe({
         next: (response) => {
-          console.log(response?.data?.token, 'response');
           if (response?.data?.token) {
             this.cookieService.set(
               environment.cookieName,

@@ -1,40 +1,35 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ILists } from '@app/core/models';
 
-import { ListService } from '@app/core/services/api/list.service';
 import { CookieService } from '@app/core/services/cookie.service';
+import { ListStore } from '@app/core/store/list.store';
 import { environment } from 'src/environment/environment';
+import { AddOrEditListComponent } from '../../../feature/list/addoreditlist.component';
 
 @Component({
   selector: 'navbar',
-  imports: [CommonModule],
+  imports: [CommonModule, AddOrEditListComponent],
   templateUrl: './navbar.component.html',
+  providers: [ListStore],
 })
 export class NavbarComponent implements OnInit {
   private cookieService = inject(CookieService);
   private router = inject(Router);
-  private listService = inject(ListService);
+  listStore = inject(ListStore);
 
-  lists: ILists[] = [];
+  isModalOpen = signal<boolean>(false);
+
+  onModalClose(): void {
+    this.isModalOpen.set(false);
+  }
+
+  setModalOpen(): void {
+    this.isModalOpen.set(true);
+  }
 
   ngOnInit(): void {
-    this.listService.getLists().subscribe({
-      next: (response) => {
-        if (response.data?.list) {
-          this.lists = response.data.list;
-        }
-        console.log(response, 'response');
-      },
-      error: (err) => {
-        if (err.status === 401) {
-          this.cookieService.delete(environment.cookieName);
-          this.router.navigate(['/login'], { replaceUrl: true });
-        }
-        console.log(err, 'error');
-      },
-    });
+    this.listStore.fetchLists();
   }
 
   logout(): void {
